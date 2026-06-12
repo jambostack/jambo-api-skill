@@ -1,0 +1,26 @@
+{
+  "skill_name": "jambo-api",
+  "evals": [
+    {
+      "id": 0,
+      "name": "create-entry-flat-format",
+      "prompt": "We use a headless CMS called Jambo as the backend for our website. Write a small Node.js ESM script `create-faq.mjs` that creates one published entry in the `faq` collection. The API base is `https://api.demo-cms.com`, the project UUID is `7c9e6b1a-3f42-4d88-9a01-2b5e8f0c1d34`, and the `faq` collection has the fields `question`, `reponse`, and `ordre`. The new entry should have question 'Quels sont vos horaires ?', reponse 'Du lundi au vendredi, 9h-17h.', ordre 1. Read the API token from the `JAMBO_TOKEN` environment variable. After creating, confirm the entry was actually saved.",
+      "expected_output": "A Node script that POSTs to the Jambo content endpoint with field values in the format matching the endpoint it chose (flat fields at the body root for /api/{PID}/{collection}, or nested under `fields` for /api/projects/{PID}/collections/faq/entries), reads the token from env, sends locale+status:published+Authorization header, and does a GET re-check afterward.",
+      "files": []
+    },
+    {
+      "id": 1,
+      "name": "hydrate-content-fallback",
+      "prompt": "Write a vanilla JavaScript snippet (no framework, runs in the browser) that, when the page loads, fetches the `temoignages` collection from our Jambo headless CMS and renders each testimonial into the container `<div class=\"testimonials\">`. Each testimonial entry has the fields `nom`, `texte`, and `note` (1-5). If the API request fails or the collection is empty, the existing HTML inside `.testimonials` must stay untouched. API base: `https://api.demo-cms.com`, project UUID: `7c9e6b1a-3f42-4d88-9a01-2b5e8f0c1d34`, locale `fr`.",
+      "expected_output": "A browser JS snippet that GETs the public content endpoint (no token), reads the `data` array, accesses field values at the entry root (t.nom, t.texte, t.note), and leaves the container untouched on failure or empty result. No token in client code.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "name": "create-collection-and-seed",
+      "prompt": "Set up a new content type in our Jambo headless CMS and seed it. Write a Node.js ESM script that (1) creates a collection `evenements` with the fields `titre` (text), `lieu` (text), and `ordre` (number), then (2) seeds two events into it. API base `https://api.demo-cms.com`, project UUID `7c9e6b1a-3f42-4d88-9a01-2b5e8f0c1d34`. Read the admin token from `JAMBO_ADMIN_TOKEN`. Make the script safe to re-run.",
+      "expected_output": "A Node script that creates the collection via the admin projects path (/api/projects/{PID}/collections), creates the fields, and seeds entries using the correct body format for the entry endpoint it uses, reads token from env, and is idempotent (checks existing before creating).",
+      "files": []
+    }
+  ]
+}
